@@ -1,7 +1,11 @@
 import { expect } from "@playwright/test";
 import { test } from "../setup/placeholder";
 
-test("POST create user - valid data", async ({ request, token, baseURL }) => {
+test("[TC001] POST create user - valid data", async ({
+  request,
+  token,
+  baseURL,
+}) => {
   const payload = {
     name: "morpheus",
     job: "leader",
@@ -20,4 +24,40 @@ test("POST create user - valid data", async ({ request, token, baseURL }) => {
   expect(body.job).toBe(payload.job);
   expect(body.id).toBeTruthy();
   expect(body.createdAt).toBeTruthy();
+});
+
+test("[TC002] POST create user - missing fields", async ({
+  request,
+  token,
+  baseURL,
+}) => {
+  const payload = {
+    name: "morpheus",
+  };
+
+  const response = await request.post(`${baseURL}/api/users`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    data: JSON.stringify(payload),
+  });
+  expect(response.status()).toBe(400);
+});
+
+test("[TC003] POST create user with invalid data types", async ({
+  request,
+  token,
+  baseURL,
+}) => {
+  const payload = {
+    name: 1234,
+  };
+
+  const response = await request.post(`${baseURL}/api/users`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    data: JSON.stringify(payload),
+  });
+  expect(response.status()).toBe(400);
 });

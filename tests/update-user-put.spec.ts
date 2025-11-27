@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("PUT update user", async ({ request, baseURL }) => {
+test("[TC020] PUT update user", async ({ request, baseURL }) => {
   const response = await request.put(`${baseURL}/api/users/2`, {
     data: {
       name: "morpheus",
