@@ -26,4 +26,5 @@ test("POST login - unsuccessful (missing password)", async ({
   expect(response.status()).toBe(400);
   const body = await response.json();
   expect(body.error).toBeTruthy();
+  expect(body.error).toBe("Missing password");
 });
